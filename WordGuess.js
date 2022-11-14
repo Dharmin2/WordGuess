@@ -11,6 +11,7 @@ animals = new Map([
 
 function compare(answer) {
 	if (answer == animals.get(urls[index])) {
+		animals.delete(urls[index]);
 		urls.splice(index,index);
 		score++;
 		return true;
@@ -20,7 +21,7 @@ function compare(answer) {
 
 function setNewImage() {
 	index = getRandom();
-	document.getElementById("animalImage").src = "";
+	document.getElementById("animalImage").src = urls[index];
 }
 
 function getRandom() {
