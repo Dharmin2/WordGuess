@@ -1,12 +1,10 @@
 score = 0;
 lives = 3;
-urls = [];
-index = getRandom(); 
+urls = ["https://pngimg.com/uploads/apple/apple_PNG12436.png"];
+index = 0;
 animals = new Map([
 	// Key is the url of the image and value is the name of the animal
-	[1, "a"],
-	[2, "b"],
-	[3, "c"]
+	['https://pngimg.com/uploads/apple/apple_PNG12436.png', "a"]
 ]);
 
 function compare(answer) {

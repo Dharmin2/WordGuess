@@ -1,8 +1,50 @@
 <html>
-    <head>
-        <script src="WordGuess.js"></script>
-    </head>
-    <body>
-        <img id = "animalImage" src = "">
-    </body>
+<head>
+	<script src="WordGuess.js"></script>
+</head>
+<body onload="setNewImage();">
+	<img id = "animalImage" src = "" style = "height:500px;width:500px;">
+	<input type = "text" name = "answer">
+	<button onclick="compare();" id = "Submit">Submit</button>
+	<h2 id = "Lives">3</h2>
+	<h2 id = "Score">0</h2>
+</body>
+
+<script>
+	score = 0;
+	lives = 3;
+	urls = ["https://pngimg.com/uploads/apple/apple_PNG12436.png"];
+	index = 0;
+	animals = new Map([
+	// Key is the url of the image and value is the name of the animal
+	['https://pngimg.com/uploads/apple/apple_PNG12436.png', "a"]
+	]);
+
+	function compare() {
+		answer = document.getElementsByName('answer')[0].value;
+		if (answer == animals.get(urls[index])) {
+			animals.delete(urls[index]);
+			urls.splice(index,index);
+			score++;
+			document.getElementById('Score').value = score;
+		}
+		else {
+			lives--;
+			document.getElementById('Lives').value = lives;
+			if (lives == 0) {
+				document.getElementById('Submit').disabled = true;
+			}
+		}
+		document.getElementsByName('answer')[0].value = "";
+	}
+
+	function setNewImage() {
+		index = getRandom();
+		document.getElementById("animalImage").src = urls[index];
+	}
+
+	function getRandom() {
+		return Math.floor(Math.random() * urls.length);
+	}
+</script>
 </html>
