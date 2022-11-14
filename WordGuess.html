@@ -6,6 +6,7 @@
 	<img id = "animalImage" src = "" style = "height:500px;width:500px;">
 	<input type = "text" name = "answer">
 	<button onclick="compare();" id = "Submit">Submit</button>
+	<button onclick = "skip();" disabled="true" id = "Skip">Skip</button>
 	<h2 id = "Lives">3</h2>
 	<h2 id = "Score">0</h2>
 </body>
@@ -13,24 +14,34 @@
 <script>
 	score = 0;
 	lives = 3;
-	urls = ["https://pngimg.com/uploads/apple/apple_PNG12436.png"];
+	urls = ["https://pngimg.com/uploads/apple/apple_PNG12436.png", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGcPgmqb526rqvjfChf77N_9anrMaRu-5Qzg&usqp=CAU"];
 	index = 0;
 	animals = new Map([
 	// Key is the url of the image and value is the name of the animal
-	['https://pngimg.com/uploads/apple/apple_PNG12436.png', "a"]
+	['https://pngimg.com/uploads/apple/apple_PNG12436.png', "a"],
+	['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGcPgmqb526rqvjfChf77N_9anrMaRu-5Qzg&usqp=CAU', "b"]
 	]);
 
 	function compare() {
 		answer = document.getElementsByName('answer')[0].value;
 		if (answer == animals.get(urls[index])) {
+			document.getElementById('Skip').disabled = true;
 			animals.delete(urls[index]);
-			urls.splice(index,index);
+			urls.splice(index,1);
 			score++;
-			document.getElementById('Score').value = score;
+			document.getElementById("Score").innerHTML = score;
+			if (animals.size != 0) {
+				setNewImage();
+			}
+			else {
+				// alert("You win");
+				document.getElementById("Submit").disabled = true;
+			}
 		}
 		else {
 			lives--;
-			document.getElementById('Lives').value = lives;
+			document.getElementById('Lives').innerHTML = lives;
+			document.getElementById('Skip').disabled = false;
 			if (lives == 0) {
 				document.getElementById('Submit').disabled = true;
 			}
@@ -45,6 +56,13 @@
 
 	function getRandom() {
 		return Math.floor(Math.random() * urls.length);
+	}
+
+	function skip() {
+		animals.delete(urls[index]);
+		urls.splice(index,index);
+		setNewImage();
+		document.getElementById('Skip').disabled = true;
 	}
 </script>
 </html>
