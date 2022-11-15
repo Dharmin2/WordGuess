@@ -1,6 +1,5 @@
 <html>
 <head>
-	<script src="WordGuess.js"></script>
 </head>
 <body onload="setNewImage();">
 	<img id = "animalImage" src = "" style = "height:500px;width:500px;">
@@ -9,34 +8,36 @@
 	<button onclick = "skip();" disabled="true" id = "Skip">Skip</button>
 	<h2 id = "Lives">3</h2>
 	<h2 id = "Score">0</h2>
+	<p id = "Word"></p>
 </body>
 
 <script>
 	score = 0;
 	lives = 3;
+	// This is the "_ _ __ _ _"
+	updatedWord = "";
+	// This is the actual word
+	word = "";
+	// This is their input
+	answer = "";
 	urls = ["https://pngimg.com/uploads/apple/apple_PNG12436.png", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGcPgmqb526rqvjfChf77N_9anrMaRu-5Qzg&usqp=CAU"];
 	index = 0;
 	animals = new Map([
 	// Key is the url of the image and value is the name of the animal
-	['https://pngimg.com/uploads/apple/apple_PNG12436.png', "a"],
-	['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGcPgmqb526rqvjfChf77N_9anrMaRu-5Qzg&usqp=CAU', "b"]
+	['https://pngimg.com/uploads/apple/apple_PNG12436.png', "apple"],
+	['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGcPgmqb526rqvjfChf77N_9anrMaRu-5Qzg&usqp=CAU', "orange"]
 	]);
 
 	function compare() {
 		answer = document.getElementsByName('answer')[0].value;
+
+		if (answer.length == 1) {
+			singleLetterGuess();
+			return null;
+		}
 		if (answer == animals.get(urls[index])) {
-			document.getElementById('Skip').disabled = true;
-			animals.delete(urls[index]);
-			urls.splice(index,1);
-			score++;
-			document.getElementById("Score").innerHTML = score;
-			if (animals.size != 0) {
-				setNewImage();
-			}
-			else {
-				// alert("You win");
-				document.getElementById("Submit").disabled = true;
-			}
+			correctAnswer();
+			checkIfDone();
 		}
 		else {
 			lives--;
@@ -44,6 +45,7 @@
 			document.getElementById('Skip').disabled = false;
 			if (lives == 0) {
 				document.getElementById('Submit').disabled = true;
+				document.getElementById('Skip').disabled = true;
 			}
 		}
 		document.getElementsByName('answer')[0].value = "";
@@ -52,6 +54,14 @@
 	function setNewImage() {
 		index = getRandom();
 		document.getElementById("animalImage").src = urls[index];
+		document.getElementById('Word').innerHTML = "";
+		for (let i = 0; i < animals.get(urls[index]).length; i++) {
+			document.getElementById('Word').innerHTML += "_ ";
+		}
+		// This is the word we will edit when the user guessing a single letter
+		updatedWord = document.getElementById('Word').innerHTML;
+		// The full word
+		word = animals.get(urls[index]);
 	}
 
 	function getRandom() {
@@ -59,10 +69,66 @@
 	}
 
 	function skip() {
-		animals.delete(urls[index]);
-		urls.splice(index,index);
-		setNewImage();
-		document.getElementById('Skip').disabled = true;
+
+		if (animals.size > 1) {
+			animals.delete(urls[index]);
+			urls.splice(index,1);
+			setNewImage();
+			document.getElementById('Skip').disabled = true;
+		}
+		else {
+			// alert("You win");
+			document.getElementById("Submit").disabled = true;
+			document.getElementById('Skip').disabled = true;
+		}
+
 	}
-</script>
-</html>
+
+	function singleLetterGuess() {
+		if (!word.includes(answer)) {
+			lives--;
+			document.getElementById('Lives').innerHTML = lives;
+			document.getElementById('Skip').disabled = true;
+		}
+		else {
+			for (let i = 0; i < updatedWord.length; i += 2) {
+				if (updatedWord.charAt(i) == "_") {
+					if (word.charAt(i / 2) == answer) {
+						updatedWord = setCharAt(updatedWord, i, answer);
+						document.getElementById('Word').innerHTML = updatedWord;
+					}
+				}
+			}
+			if (!updatedWord.includes("_")) {
+				correctAnswer();
+				checkIfDone();
+			}
+		}
+
+		document.getElementsByName('answer')[0].value = "";
+	}
+
+	function setCharAt(str,index,chr) {
+		if(index > str.length-1) return str;
+		return str.substring(0,index) + chr + str.substring(index+1);
+	}
+
+	function correctAnswer() {
+		document.getElementById('Skip').disabled = true;
+		animals.delete(urls[index]);
+		urls.splice(index,1);
+		score++;
+		document.getElementById("Score").innerHTML = score;
+	}
+
+	function checkIfDone() {
+		if (animals.size != 0) {
+			setNewImage();
+		}
+		else {
+				// alert("You win");
+				document.getElementById("Submit").disabled = true;
+			}
+		}
+	</script>
+	</html>
