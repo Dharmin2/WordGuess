@@ -24,7 +24,7 @@
 	index = 0;
 	animals = new Map([
 	// Key is the url of the image and value is the name of the animal
-	['https://pngimg.com/uploads/apple/apple_PNG12436.png', "apple"],
+	['https://pngimg.com/uploads/apple/apple_PNG12436.png', "Afghan Hound"],
 	['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGcPgmqb526rqvjfChf77N_9anrMaRu-5Qzg&usqp=CAU', "orange"]
 	]);
 
@@ -56,7 +56,12 @@
 		document.getElementById("animalImage").src = urls[index];
 		document.getElementById('Word').innerHTML = "";
 		for (let i = 0; i < animals.get(urls[index]).length; i++) {
-			document.getElementById('Word').innerHTML += "_ ";
+			if (animals.get(urls[index]).charAt(i) == " ") {
+				document.getElementById('Word').innerHTML += "* ";
+			}
+			else {
+				document.getElementById('Word').innerHTML += "_ ";
+			}
 		}
 		// This is the word we will edit when the user guessing a single letter
 		updatedWord = document.getElementById('Word').innerHTML;
@@ -92,7 +97,7 @@
 		}
 		else {
 			for (let i = 0; i < updatedWord.length; i += 2) {
-				if (updatedWord.charAt(i) == "_") {
+				if (updatedWord.charAt(i) == "_" && updatedWord.charAt(i) != " ") {
 					if (word.charAt(i / 2) == answer) {
 						updatedWord = setCharAt(updatedWord, i, answer);
 						document.getElementById('Word').innerHTML = updatedWord;
