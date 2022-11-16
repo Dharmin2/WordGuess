@@ -4,28 +4,26 @@
 
 body {
     /* background-image: linear-gradient(to right, #f46b45, #eea849); */
-    background-image: linear-gradient(to right, #3969d8, #c74635);
+    background-image: linear-gradient(to right, #3969d8, #bd7f21);
     color: white;
     text-align: center;
-  }
-  .wrapper {
+}
+
+.wrapper {
     width: fit-content;
     margin: auto;
-  }
-  .hint-div {
+}
+
+.hint-div {
     display: flex;
     color: chartreuse;
-  }
-  .hint-btn,
-  .reset-btn,
-  .notif-btn {
-    cursor: pointer;
-    font-size: large;
-  }
-  .reset-btn {
+}
+
+.reset-btn {
     margin-left: auto;
-  }
-  .alpha {
+}
+
+.alpha {
     font-size: large;
     width: 2rem;
     height: 2rem;
@@ -34,25 +32,28 @@ body {
     border-radius: 4px;
     margin: 3px;
     cursor: pointer;
-  }
-  .alpha:hover {
-    background-color: #dd4516;
+}
+
+.alpha:hover {
+    background-color: #bd7f21;
     border: none;
-  }
-  .disabled {
+}
+
+.disabled {
     pointer-events: none;
     background-color: darkgray;
-  }
+}
   
-  .word-div {
+.word-div {
     display: inline-flex;
-  }
-  .word {
+}
+
+.word {
     margin-right: 1.5rem;
     font-size: large;
-  }
+}
   
-  .notif {
+.notif {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -62,10 +63,57 @@ body {
     padding: 20px 10px;
     border-radius: 4px;
     box-shadow: 3px 3px 1px 1px rgba(0, 0, 0, 0.2);
-  }
-  .blur {
+}
+
+.blur {
     filter: blur(2px);
-  }
-  .hidden {
+}
+
+.hidden {
     display: none;
-  }
+}
+
+.hint-btn,
+.reset-btn,
+.notif-btn {
+	cursor: pointer;
+    font-size: large;
+    background-color: #fbeee0;
+    border: 2px solid #422800;
+    border-radius: 30px;
+    box-shadow: #422800 4px 4px 0 0;
+    color: #422800;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 0 18px;
+    line-height: 50px;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+  
+.hint-btn:hover,
+.reset-btn:hover,
+.notif-btn:hover {
+    background-color: #fff;
+}
+  
+.hint-btn:active,
+.reset-btn:active,
+.notif-btn:active {
+    box-shadow: #422800 2px 2px 0 0;
+    transform: translate(2px, 2px);
+}
+  
+@media (min-width: 768px) {
+    .hint-btn,
+    .reset-btn,
+    .notif-btn {
+      min-width: 120px;
+      padding: 0 25px;
+    }
+}
