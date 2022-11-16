@@ -2,13 +2,15 @@
 <head>
 </head>
 <body onload="setNewImage();">
-	<img id = "animalImage" src = "" style = "height:500px;width:500px;">
+	<img id = "animalImage" src = "https://cdn.pixabay.com/photo/2012/04/24/21/13/question-mark-40876_960_720.png" style = "height:500px;width:500px;">
 	<input type = "text" name = "answer">
 	<button onclick="compare();" id = "Submit">Submit</button>
 	<button onclick = "skip();" disabled="true" id = "Skip">Skip</button>
+	<button disabled="true" id = "Next" onclick = "checkIfDone();">Next</button>
 	<h2 id = "Lives">3</h2>
 	<h2 id = "Score">0</h2>
 	<p id = "Word"></p>
+	<p id = "Hint"></p>
 </body>
 
 <script>
@@ -28,6 +30,11 @@
 	['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQGcPgmqb526rqvjfChf77N_9anrMaRu-5Qzg&usqp=CAU', "orange"]
 	]);
 
+	animalType = new Map([
+		['Afghan Hound', 'Dog'],
+		['orange', 'Cat']
+		]);
+
 	function compare() {
 		answer = document.getElementsByName('answer')[0].value;
 
@@ -37,7 +44,7 @@
 		}
 		if (answer == animals.get(urls[index])) {
 			correctAnswer();
-			checkIfDone();
+			// checkIfDone();
 		}
 		else {
 			lives--;
@@ -46,6 +53,7 @@
 			if (lives == 0) {
 				document.getElementById('Submit').disabled = true;
 				document.getElementById('Skip').disabled = true;
+				document.getElementById('Next').disabled = true;
 			}
 		}
 		document.getElementsByName('answer')[0].value = "";
@@ -53,7 +61,7 @@
 
 	function setNewImage() {
 		index = getRandom();
-		document.getElementById("animalImage").src = urls[index];
+		// document.getElementById("animalImage").src = urls[index];
 		document.getElementById('Word').innerHTML = "";
 		for (let i = 0; i < animals.get(urls[index]).length; i++) {
 			if (animals.get(urls[index]).charAt(i) == " ") {
@@ -67,6 +75,10 @@
 		updatedWord = document.getElementById('Word').innerHTML;
 		// The full word
 		word = animals.get(urls[index]);
+
+		//Update the hint
+
+		document.getElementById('Hint').innerHTML = "Hint: " + animalType.get(word);
 	}
 
 	function getRandom() {
@@ -120,15 +132,21 @@
 
 	function correctAnswer() {
 		document.getElementById('Skip').disabled = true;
+		document.getElementById("animalImage").src = urls[index];
 		animals.delete(urls[index]);
 		urls.splice(index,1);
 		score++;
 		document.getElementById("Score").innerHTML = score;
+		document.getElementById("Next").disabled = false;
+		document.getElementById("Submit").disabled = true;
 	}
 
 	function checkIfDone() {
 		if (animals.size != 0) {
 			setNewImage();
+			document.getElementById("Next").disabled = true;
+			document.getElementById("Submit").disabled = false;
+			document.getElementById("animalImage").src = "https://cdn.pixabay.com/photo/2012/04/24/21/13/question-mark-40876_960_720.png";
 		}
 		else {
 				// alert("You win");
