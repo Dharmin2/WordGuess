@@ -150,3 +150,69 @@ resetButton.addEventListener('click', function () {
 playAgain.addEventListener('click', function () {
 	init('reset');
 });
+
+//-------------------
+let animals = new Map([
+	// Key is the url of the image and value is the name of the animal
+	['https://www.gazdiravar.com/wp-content/uploads/2022/11/afghan-hound.jpg', "afghan hound"],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/11/akita.jpg', "akita"],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/bulldog.jpg', "american bulldog"],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/11/australian-shepherd.jpg', "australian shepherd"],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/cocker-spaniel.jpg', 'american cocker spaniel'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/11/beagle.jpg', 'beagle'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/11/bichon-frise.jpg', 'bichon frise'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/11/bloodhound.jpg', 'bloodhound'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/11/border-collie.jpg', 'border collie'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/11/boston-terrier.jpg', 'boston terrier'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/11/boxer.jpg', 'boxer'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/king-charles-spaniel.jpg', 'cavalier king charles spaniel'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/chihuahua.jpg', 'chihuahua'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/dachshund.jpg', 'dachshund'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/dalmatian.jpg', 'dalmatian'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/doberman.jpg', 'doberman pinscher'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/french-bulldog.jpg', 'french bulldog'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/german-shepherd.jpg', 'german shepherd'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/german-shorthaired-pointer.jpg', 'german shorthaired pointer'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/golden-retriever.jpg', 'golden retriever'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/great-dane.jpg', 'great dane'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/greyhound.jpg', 'greyhound'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/irish-setter.jpg', 'irish setter'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/jack-russel-terrier.jpg', 'jack russel terrier'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/labrador-retriever.jpg', 'labrador retriever'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/maltese.jpg', 'maltese'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/mastiff.jpg', 'mastiff'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/papillon.jpg', 'papillon'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/pembroke-welsh-corgi.jpg', 'pembroke welsh corgi'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/pomeranian.jpg', 'pomeranian'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/poodle.jpg', 'poodle'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/pug.jpg', 'pug'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/rottweiler.jpg', 'rottweiler'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/saint-bernard.jpg', 'saint bernard'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/saluki.jpg', 'saluki'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/samoyed.jpg', 'samoyed'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/scottish-terrier.jpg', 'scottish terrier'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/shar-pei.jpg', 'shar pei'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/shiba-inu.jpg', 'shiba inu'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/shih-tzu.jpg', 'shih tzu'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/husky.jpg', 'siberian husky'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/vizsla.jpg', 'vizsla'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/weimaraner.jpg', 'weimaraner'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/whippet.jpg', 'whippet'],
+	['https://www.gazdiravar.com/wp-content/uploads/2022/10/yorkie.jpg', 'yorkie']
+	]);
+//-------------------
+
+
+let animalImage = document.getElementById('animalImage');
+
+setAnimalImage();
+function setAnimalImage() {
+	for (let animal in animals) {
+		if (select_word == animals[animal][1]){
+			animalImage.src = animals[0];
+			console.log(animalImage.src);
+		} else {
+			animalImage.src = "https://t3.ftcdn.net/jpg/03/35/13/14/360_F_335131435_DrHIQjlOKlu3GCXtpFkIG1v0cGgM9vJC.jpg"
+		}
+	}
+}
