@@ -1,245 +1,327 @@
 <html>
+
 <head>
 </head>
+
 <body onload="setNewImage();">
-	<img id = "animalImage" src = "https://cdn.pixabay.com/photo/2012/04/24/21/13/question-mark-40876_960_720.png" style = "height:500px;width:500px;">
-	<input type = "text" name = "answer">
-	<button onclick="compare();" id = "Submit">Submit</button>
-	<button onclick = "skip();" disabled="true" id = "Skip">Skip</button>
-	<button disabled="true" id = "Next" onclick = "checkIfDone();">Next</button>
-	<h2 id = "Lives">3</h2>
-	<h2 id = "Score">0</h2>
-	<p id = "Word"></p>
-	<p id = "Hint"></p>
+    <div class="flexbox">
+        <div>
+            <button onclick="singleLetterGuessBlock('A')">A</button>
+            <button onclick="singleLetterGuessBlock('B')">B</button>
+            <button onclick="singleLetterGuessBlock('C')">C</button>
+            <button onclick="singleLetterGuessBlock('D')">D</button>
+            <button onclick="singleLetterGuessBlock('E')">E</button>
+            <button onclick="singleLetterGuessBlock('F')">F</button>
+            <button onclick="singleLetterGuessBlock('G')">G</button>
+            <button onclick="singleLetterGuessBlock('H')">H</button>
+            <button onclick="singleLetterGuessBlock('I')">I</button>
+            <button onclick="singleLetterGuessBlock('J')">J</button>
+            <button onclick="singleLetterGuessBlock('K')">K</button>
+            <button onclick="singleLetterGuessBlock('L')">L</button>
+            <button onclick="singleLetterGuessBlock('M')">M</button>
+            <button onclick="singleLetterGuessBlock('N')">N</button>
+            <button onclick="singleLetterGuessBlock('O')">O</button>
+            <button onclick="singleLetterGuessBlock('P')">P</button>
+            <button onclick="singleLetterGuessBlock('Q')">Q</button>
+            <button onclick="singleLetterGuessBlock('R')">R</button>
+            <button onclick="singleLetterGuessBlock('S')">S</button>
+            <button onclick="singleLetterGuessBlock('T')">T</button>
+            <button onclick="singleLetterGuessBlock('U')">U</button>
+            <button onclick="singleLetterGuessBlock('V')">V</button>
+            <button onclick="singleLetterGuessBlock('W')">W</button>
+            <button onclick="singleLetterGuessBlock('X')">X</button>
+            <button onclick="singleLetterGuessBlock('Y')">Y</button>
+            <button onclick="singleLetterGuessBlock('Z')">Z</button>
+        </div>
+    </div>
+    <div class = "flexbox" style = "margin-top: 50px;">
+        <img id="animalImage" src="https://cdn.pixabay.com/photo/2012/04/24/21/13/question-mark-40876_960_720.png"
+        style="height:500px;width:500px;">
+    </div>
+
+    <div class = "flexboxColumn">
+        <h2 id="Lives">3</h2>
+        <h2 id="Score">0</h2>
+        
+    <button onclick="skip();" disabled="true" id="Skip" class = "Buttons">Skip</button>
+    <button disabled="true" id="Next" onclick="checkIfDone();" class = "Buttons">Next</button>
+    </div>
+    <!-- <input type="text" name="answer"> -->
+    <!-- <button onclick="compare();" id="Submit">Submit</button> -->
+    <div class = "flexbox">
+        <p id="Word"></p>
+    </div>
+    <p id="Hint"></p>
+    <style>
+        .flexbox {
+            display: flex;
+            justify-content: center;
+        }
+
+        .break {
+            flex-basis: 100%;
+            height: 0;
+        }
+
+        .Buttons {
+            width:50px;
+        }
+
+        .flexboxColumn {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+        }
+    </style>
 </body>
 
 <script>
-	score = 0;
-	lives = 3;
-	// This is the "_ _ __ _ _"
-	updatedWord = "";
-	// This is the actual word
-	word = "";
-	// This is their input
-	answer = "";
-	urls = ["https://www.gazdiravar.com/wp-content/uploads/2022/11/afghan-hound.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/11/akita.jpg","https://www.gazdiravar.com/wp-content/uploads/2022/10/bulldog.jpg","https://www.gazdiravar.com/wp-content/uploads/2022/11/australian-shepherd.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/cocker-spaniel.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/11/beagle.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/11/bichon-frise.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/11/bloodhound.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/11/border-collie.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/11/boston-terrier.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/11/boxer.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/king-charles-spaniel.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/chihuahua.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/dachshund.jpg","https://www.gazdiravar.com/wp-content/uploads/2022/10/dalmatian.jpg","https://www.gazdiravar.com/wp-content/uploads/2022/10/doberman.jpg","https://www.gazdiravar.com/wp-content/uploads/2022/10/french-bulldog.jpg","https://www.gazdiravar.com/wp-content/uploads/2022/10/german-shepherd.jpg","https://www.gazdiravar.com/wp-content/uploads/2022/10/german-shorthaired-pointer.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/golden-retriever.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/great-dane.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/greyhound.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/irish-setter.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/jack-russel-terrier.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/labrador-retriever.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/maltese.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/mastiff.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/papillon.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/pembroke-welsh-corgi.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/pomeranian.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/poodle.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/pug.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/rottweiler.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/saint-bernard.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/saluki.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/samoyed.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/scottish-terrier.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/shar-pei.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/shiba-inu.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/shih-tzu.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/husky.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/vizsla.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/weimaraner.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/whippet.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/yorkie.jpg"
-	];
-	index = 0;
-	animals = new Map([
-	// Key is the url of the image and value is the name of the animal
-	['https://www.gazdiravar.com/wp-content/uploads/2022/11/afghan-hound.jpg', "afghan hound"],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/11/akita.jpg', "akita"],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/bulldog.jpg', "american bulldog"],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/11/australian-shepherd.jpg', "australian shepherd"],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/cocker-spaniel.jpg', 'american cocker spaniel'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/11/beagle.jpg', 'beagle'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/11/bichon-frise.jpg', 'bichon frise'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/11/bloodhound.jpg', 'bloodhound'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/11/border-collie.jpg', 'border collie'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/11/boston-terrier.jpg', 'boston terrier'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/11/boxer.jpg', 'boxer'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/king-charles-spaniel.jpg', 'cavalier king charles spaniel'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/chihuahua.jpg', 'chihuahua'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/dachshund.jpg', 'dachshund'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/dalmatian.jpg', 'dalmatian'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/doberman.jpg', 'doberman pinscher'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/french-bulldog.jpg', 'french bulldog'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/german-shepherd.jpg', 'german shepherd'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/german-shorthaired-pointer.jpg', 'german shorthaired pointer'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/golden-retriever.jpg', 'golden retriever'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/great-dane.jpg', 'great dane'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/greyhound.jpg', 'greyhound'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/irish-setter.jpg', 'irish setter'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/jack-russel-terrier.jpg', 'jack russel terrier'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/labrador-retriever.jpg', 'labrador retriever'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/maltese.jpg', 'maltese'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/mastiff.jpg', 'mastiff'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/papillon.jpg', 'papillon'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/pembroke-welsh-corgi.jpg', 'pembroke welsh corgi'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/pomeranian.jpg', 'pomeranian'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/poodle.jpg', 'poodle'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/pug.jpg', 'pug'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/rottweiler.jpg', 'rottweiler'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/saint-bernard.jpg', 'saint bernard'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/saluki.jpg', 'saluki'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/samoyed.jpg', 'samoyed'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/scottish-terrier.jpg', 'scottish terrier'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/shar-pei.jpg', 'shar pei'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/shiba-inu.jpg', 'shiba inu'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/shih-tzu.jpg', 'shih tzu'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/husky.jpg', 'siberian husky'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/vizsla.jpg', 'vizsla'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/weimaraner.jpg', 'weimaraner'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/whippet.jpg', 'whippet'],
-	['https://www.gazdiravar.com/wp-content/uploads/2022/10/yorkie.jpg', 'yorkie']
-	]);
+    score = 0;
+    lives = 3;
+    // This is the "_ _ __ _ _"
+    updatedWord = "";
+    // This is the actual word
+    word = "";
+    // This is their input
+    answer = "";
+    urls = ["https://www.gazdiravar.com/wp-content/uploads/2022/11/afghan-hound.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/11/akita.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/bulldog.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/11/australian-shepherd.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/cocker-spaniel.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/11/beagle.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/11/bichon-frise.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/11/bloodhound.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/11/border-collie.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/11/boston-terrier.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/11/boxer.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/king-charles-spaniel.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/chihuahua.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/dachshund.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/dalmatian.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/doberman.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/french-bulldog.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/german-shepherd.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/german-shorthaired-pointer.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/golden-retriever.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/great-dane.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/greyhound.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/irish-setter.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/jack-russel-terrier.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/labrador-retriever.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/maltese.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/mastiff.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/papillon.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/pembroke-welsh-corgi.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/pomeranian.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/poodle.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/pug.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/rottweiler.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/saint-bernard.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/saluki.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/samoyed.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/scottish-terrier.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/shar-pei.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/shiba-inu.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/shih-tzu.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/husky.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/vizsla.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/weimaraner.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/whippet.jpg", "https://www.gazdiravar.com/wp-content/uploads/2022/10/yorkie.jpg"
+    ];
+    index = 0;
+    animals = new Map([
+        // Key is the url of the image and value is the name of the animal
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/11/afghan-hound.jpg', "afghan hound"],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/11/akita.jpg', "akita"],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/bulldog.jpg', "american bulldog"],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/11/australian-shepherd.jpg', "australian shepherd"],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/cocker-spaniel.jpg', 'american cocker spaniel'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/11/beagle.jpg', 'beagle'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/11/bichon-frise.jpg', 'bichon frise'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/11/bloodhound.jpg', 'bloodhound'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/11/border-collie.jpg', 'border collie'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/11/boston-terrier.jpg', 'boston terrier'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/11/boxer.jpg', 'boxer'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/king-charles-spaniel.jpg', 'cavalier king charles spaniel'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/chihuahua.jpg', 'chihuahua'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/dachshund.jpg', 'dachshund'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/dalmatian.jpg', 'dalmatian'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/doberman.jpg', 'doberman pinscher'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/french-bulldog.jpg', 'french bulldog'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/german-shepherd.jpg', 'german shepherd'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/german-shorthaired-pointer.jpg', 'german shorthaired pointer'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/golden-retriever.jpg', 'golden retriever'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/great-dane.jpg', 'great dane'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/greyhound.jpg', 'greyhound'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/irish-setter.jpg', 'irish setter'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/jack-russel-terrier.jpg', 'jack russel terrier'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/labrador-retriever.jpg', 'labrador retriever'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/maltese.jpg', 'maltese'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/mastiff.jpg', 'mastiff'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/papillon.jpg', 'papillon'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/pembroke-welsh-corgi.jpg', 'pembroke welsh corgi'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/pomeranian.jpg', 'pomeranian'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/poodle.jpg', 'poodle'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/pug.jpg', 'pug'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/rottweiler.jpg', 'rottweiler'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/saint-bernard.jpg', 'saint bernard'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/saluki.jpg', 'saluki'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/samoyed.jpg', 'samoyed'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/scottish-terrier.jpg', 'scottish terrier'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/shar-pei.jpg', 'shar pei'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/shiba-inu.jpg', 'shiba inu'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/shih-tzu.jpg', 'shih tzu'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/husky.jpg', 'siberian husky'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/vizsla.jpg', 'vizsla'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/weimaraner.jpg', 'weimaraner'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/whippet.jpg', 'whippet'],
+        ['https://www.gazdiravar.com/wp-content/uploads/2022/10/yorkie.jpg', 'yorkie']
+    ]);
 
-	animalType = new Map([
-		['afghan hound', 'Dog'],
-		['akita', 'Dog'],
-		['american bulldog', 'Dog'],
-		['australian shepherd', 'Dog'],
-		['american cocker spaniel', 'Dog'],
-		['beagle', 'Dog'],
-		['bichon frise', 'Dog'], //Here
-		['bloodhound', 'Dog'],
-		['border collie', 'Dog'],
-		['boston terrier', 'Dog'],
-		['boxer', 'Dog'],
-		['cavalier king charles spaniel', 'Dog'],
-		['chihuahua', 'Dog'],
-		['dachshund', 'Dog'],
-		['dalmatian' ,'Dog'],
-		['doberman pinscher', 'Dog'],
-		['french bulldog', 'Dog'],
-		['german shepherd', 'Dog'],
-		['german shorthaired pointer', 'Dog'],
-		['golden retriever', 'Dog'],
-		['great dane', 'Dog'],
-		['greyhound', 'Dog'],
-		['irish setter', 'Dog'],
-		['jack russel terrier', 'Dog'],
-		['labrador retriever', 'Dog'],
-		['maltese', 'Dog'],
-		['mastiff', 'Dog'],
-		['papillon', 'Dog'],
-		['pembroke welsh corgi', 'Dog'],
-		['pomeranian', 'Dog'],
-		['poodle', 'Dog'],
-		['pug', 'Dog'],
-		['rottweiler', 'Dog'],
-		['saint bernard', 'Dog'],
-		['saluki', 'Dog'],
-		['samoyed', 'Dog'],
-		['scottish terrier', 'Dog'],
-		['shar pei', 'Dog'],
-		['shiba inu', 'Dog'],
-		['shih tzu', 'Dog'],
-		['siberian husky', 'Dog'],
-		['vizsla', 'Dog'],
-		['weimaraner', 'Dog'],
-		['wehippet', 'Dog'],
-		['yorkshire terrier', 'Dog'],
-		]);
+    animalType = new Map([
+        ['afghan hound', 'Dog'],
+        ['akita', 'Dog'],
+        ['american bulldog', 'Dog'],
+        ['australian shepherd', 'Dog'],
+        ['american cocker spaniel', 'Dog'],
+        ['beagle', 'Dog'],
+        ['bichon frise', 'Dog'], //Here
+        ['bloodhound', 'Dog'],
+        ['border collie', 'Dog'],
+        ['boston terrier', 'Dog'],
+        ['boxer', 'Dog'],
+        ['cavalier king charles spaniel', 'Dog'],
+        ['chihuahua', 'Dog'],
+        ['dachshund', 'Dog'],
+        ['dalmatian', 'Dog'],
+        ['doberman pinscher', 'Dog'],
+        ['french bulldog', 'Dog'],
+        ['german shepherd', 'Dog'],
+        ['german shorthaired pointer', 'Dog'],
+        ['golden retriever', 'Dog'],
+        ['great dane', 'Dog'],
+        ['greyhound', 'Dog'],
+        ['irish setter', 'Dog'],
+        ['jack russel terrier', 'Dog'],
+        ['labrador retriever', 'Dog'],
+        ['maltese', 'Dog'],
+        ['mastiff', 'Dog'],
+        ['papillon', 'Dog'],
+        ['pembroke welsh corgi', 'Dog'],
+        ['pomeranian', 'Dog'],
+        ['poodle', 'Dog'],
+        ['pug', 'Dog'],
+        ['rottweiler', 'Dog'],
+        ['saint bernard', 'Dog'],
+        ['saluki', 'Dog'],
+        ['samoyed', 'Dog'],
+        ['scottish terrier', 'Dog'],
+        ['shar pei', 'Dog'],
+        ['shiba inu', 'Dog'],
+        ['shih tzu', 'Dog'],
+        ['siberian husky', 'Dog'],
+        ['vizsla', 'Dog'],
+        ['weimaraner', 'Dog'],
+        ['wehippet', 'Dog'],
+        ['yorkshire terrier', 'Dog'],
+    ]);
 
-	function compare() {
-		answer = document.getElementsByName('answer')[0].value;
+    function compare() {
+        answer = document.getElementsByName('answer')[0].value;
 
-		if (answer.length == 1) {
-			singleLetterGuess();
-			return null;
-		}
-		if (answer.toLowerCase() === animals.get(urls[index]).toLowerCase()) {
-			correctAnswer();
-			// checkIfDone();
-		}
-		else {
-			lives--;
-			document.getElementById('Lives').innerHTML = lives;
-			document.getElementById('Skip').disabled = false;
-			if (lives == 0) {
-				document.getElementById('Submit').disabled = true;
-				document.getElementById('Skip').disabled = true;
-				document.getElementById('Next').disabled = true;
-			}
-		}
-		document.getElementsByName('answer')[0].value = "";
-	}
+        if (answer.length == 1) {
+            singleLetterGuess();
+            return null;
+        }
+        if (answer.toLowerCase() === animals.get(urls[index]).toLowerCase()) {
+            correctAnswer();
+            // checkIfDone();
+        }
+        else {
+            lives--;
+            document.getElementById('Lives').innerHTML = lives;
+            document.getElementById('Skip').disabled = false;
+            if (lives == 0) {
+                document.getElementById('Skip').disabled = true;
+                document.getElementById('Next').disabled = true;
+            }
+        }
+        document.getElementsByName('answer')[0].value = "";
+    }
 
-	function setNewImage() {
-		index = getRandom();
-		// document.getElementById("animalImage").src = urls[index];
-		document.getElementById('Word').innerHTML = "";
-		for (let i = 0; i < animals.get(urls[index]).length; i++) {
-			if (animals.get(urls[index]).charAt(i) == " ") {
-				document.getElementById('Word').innerHTML += "* ";
-			}
-			else {
-				document.getElementById('Word').innerHTML += "_ ";
-			}
-		}
-		// This is the word we will edit when the user guessing a single letter
-		updatedWord = document.getElementById('Word').innerHTML;
-		// The full word
-		word = animals.get(urls[index]);
+    function setNewImage() {
+        index = getRandom();
+        // document.getElementById("animalImage").src = urls[index];
+        document.getElementById('Word').innerHTML = "";
+        for (let i = 0; i < animals.get(urls[index]).length; i++) {
+            if (animals.get(urls[index]).charAt(i) == " ") {
+                document.getElementById('Word').innerHTML += "* ";
+            }
+            else {
+                document.getElementById('Word').innerHTML += "_ ";
+            }
+        }
+        // This is the word we will edit when the user guessing a single letter
+        updatedWord = document.getElementById('Word').innerHTML;
+        // The full word
+        word = animals.get(urls[index]);
 
-		//Update the hint
+        //Update the hint
 
-		document.getElementById('Hint').innerHTML = "Hint: " + animalType.get(word);
-	}
+        document.getElementById('Hint').innerHTML = "Hint: " + animalType.get(word);
+    }
 
-	function getRandom() {
-		return Math.floor(Math.random() * urls.length);
-	}
+    function getRandom() {
+        return Math.floor(Math.random() * urls.length);
+    }
 
-	function skip() {
+    function skip() {
 
-		if (animals.size > 1) {
-			animals.delete(urls[index]);
-			urls.splice(index,1);
-			setNewImage();
-			document.getElementById('Skip').disabled = true;
-		}
-		else {
-			// alert("You win");
-			document.getElementById("Submit").disabled = true;
-			document.getElementById('Skip').disabled = true;
-		}
+        if (animals.size > 1) {
+            animals.delete(urls[index]);
+            urls.splice(index, 1);
+            setNewImage();
+            document.getElementById('Skip').disabled = true;
+        }
+        else {
+            // alert("You win");
+            document.getElementById('Skip').disabled = true;
+        }
 
-	}
+    }
 
-	function singleLetterGuess() {
-		if (!word.includes(answer.toLowerCase())) {
-			lives--;
-			document.getElementById('Lives').innerHTML = lives;
-			document.getElementById('Skip').disabled = true;
-		}
-		else {
-			for (let i = 0; i < updatedWord.length; i += 2) {
-				if (updatedWord.charAt(i) == "_" && updatedWord.charAt(i) != " ") {
-					if (word.charAt(i / 2) === answer.toLowerCase()) {
-						updatedWord = setCharAt(updatedWord, i, answer.toLowerCase());
-						document.getElementById('Word').innerHTML = updatedWord;
-					}
-				}
-			}
-			if (!updatedWord.includes("_")) {
-				correctAnswer();
-				checkIfDone();
-			}
-		}
+    // function singleLetterGuess() {
+    //     if (!word.includes(answer.toLowerCase())) {
+    //         lives--;
+    //         document.getElementById('Lives').innerHTML = lives;
+    //         document.getElementById('Skip').disabled = true;
+    //     }
+    //     else {
+    //         for (let i = 0; i < updatedWord.length; i += 2) {
+    //             if (updatedWord.charAt(i) == "_" && updatedWord.charAt(i) != " ") {
+    //                 if (word.charAt(i / 2) === answer.toLowerCase()) {
+    //                     updatedWord = setCharAt(updatedWord, i, answer.toLowerCase());
+    //                     document.getElementById('Word').innerHTML = updatedWord;
+    //                 }
+    //             }
+    //         }
+    //         if (!updatedWord.includes("_")) {
+    //             correctAnswer();
+    //         }
+    //     }
 
-		document.getElementsByName('answer')[0].value = "";
-	}
+    //     document.getElementsByName('answer')[0].value = "";
+    // }
 
-	function setCharAt(str,index,chr) {
-		if(index > str.length-1) return str;
-		return str.substring(0,index) + chr + str.substring(index+1);
-	}
+    function singleLetterGuessBlock(letter) {
+        if (!word.includes(letter.toLowerCase())) {
+            lives--;
+            document.getElementById('Lives').innerHTML = lives;
+            if (lives != 0) {
+                document.getElementById('Skip').disabled = false;
+            }
+        }
+        else {
+            for (let i = 0; i < updatedWord.length; i += 2) {
+                if (updatedWord.charAt(i) == "_" && updatedWord.charAt(i) != " ") {
+                    if (word.charAt(i / 2) === letter.toLowerCase()) {
+                        updatedWord = setCharAt(updatedWord, i, letter.toLowerCase());
+                        document.getElementById('Word').innerHTML = updatedWord;
+                    }
+                }
+            }
+            if (!updatedWord.includes("_")) {
+                correctAnswer();
+            }
+        }
 
-	function correctAnswer() {
-		document.getElementById('Skip').disabled = true;
-		document.getElementById("animalImage").src = urls[index];
-		animals.delete(urls[index]);
-		urls.splice(index,1);
-		score++;
-		document.getElementById("Score").innerHTML = score;
-		document.getElementById("Next").disabled = false;
-		document.getElementById("Submit").disabled = true;
-	}
+        document.getElementsByName('answer')[0].value = "";
+    }
 
-	function checkIfDone() {
-		if (animals.size != 0) {
-			setNewImage();
-			document.getElementById("Next").disabled = true;
-			document.getElementById("Submit").disabled = false;
-			document.getElementById("animalImage").src = "https://cdn.pixabay.com/photo/2012/04/24/21/13/question-mark-40876_960_720.png";
-		}
-		else {
-				// alert("You win");
-				document.getElementById("Submit").disabled = true;
-				document.getElementById("Next").disabled = true;
-			}
-		}
-	</script>
-	</html>
+    function setCharAt(str, index, chr) {
+        if (index > str.length - 1) return str;
+        return str.substring(0, index) + chr + str.substring(index + 1);
+    }
+
+    function correctAnswer() {
+        document.getElementById('Skip').disabled = true;
+        document.getElementById("animalImage").src = urls[index];
+        animals.delete(urls[index]);
+        urls.splice(index, 1);
+        score++;
+        document.getElementById("Score").innerHTML = score;
+        document.getElementById("Next").disabled = false;
+    }
+
+    function checkIfDone() {
+        if (animals.size != 0) {
+            setNewImage();
+            document.getElementById("Next").disabled = true;
+            document.getElementById("animalImage").src = "https://cdn.pixabay.com/photo/2012/04/24/21/13/question-mark-40876_960_720.png";
+        }
+        else {
+            // alert("You win");
+            document.getElementById("Next").disabled = true;
+        }
+    }
+</script>
+
+</html>

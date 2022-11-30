@@ -200,6 +200,8 @@ let animals = new Map([
 	['https://www.gazdiravar.com/wp-content/uploads/2022/10/whippet.jpg', 'whippet'],
 	['https://www.gazdiravar.com/wp-content/uploads/2022/10/yorkie.jpg', 'yorkie']
 	]);
+
+	
 //-------------------
 
 
@@ -209,7 +211,7 @@ setAnimalImage();
 function setAnimalImage() {
 	for (let animal in animals) {
 		if (select_word == animals[animal][1]){
-			animalImage.src = animals[0];
+			animalImage.src = urls[0];
 			console.log(animalImage.src);
 		} else {
 			animalImage.src = "https://t3.ftcdn.net/jpg/03/35/13/14/360_F_335131435_DrHIQjlOKlu3GCXtpFkIG1v0cGgM9vJC.jpg"
